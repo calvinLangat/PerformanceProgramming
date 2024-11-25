@@ -77,7 +77,8 @@ s32 main(int argc, char** argv)
 
 	if(buffer.chars_in_buffer > 0)							// If any text is left in the buffer, write it to file
 	{
-	fwrite(buffer.text, sizeof(char), buffer.chars_in_buffer, f1);
+		fwrite(buffer.text, sizeof(char), buffer.chars_in_buffer, f1);
+		buffer.chars_in_buffer = 0;							// Reset the count
 	}
 
 	fwrite(ending_format_JSON, sizeof(char),30, f1);
