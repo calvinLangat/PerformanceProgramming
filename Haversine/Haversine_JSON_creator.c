@@ -75,7 +75,7 @@ s32 main(int argc, char** argv)
 
 	}
 
-	if(buffer.text > 0)										// If any text is left in the buffer, write it to file
+	if(buffer.chars_in_buffer > 0)							// If any text is left in the buffer, write it to file
 	{
 	fwrite(buffer.text, sizeof(char), buffer.chars_in_buffer, f1);
 	}
