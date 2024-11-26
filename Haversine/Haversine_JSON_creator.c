@@ -9,7 +9,7 @@ typedef float    f32;
 typedef double   f64;
 typedef uint32_t u32;
 typedef uint64_t u64;
-typedef int32_t  s32;
+typedef int32_t  i32;
 typedef bool     b32;
 
 #define BUFF_LEN 100000										// Length of buffer (Fits L1 cache)
@@ -27,10 +27,10 @@ struct pairs
 	f32 y1;
 };
 
-const s32 min_lat_coord  = -180;							// Latitude limits
-const s32 max_lat_coord  = 180;								
-const s32 min_long_coord = -90;								// Longitude limits
-const s32 max_long_coord = 90;
+const i32 min_lat_coord  = -180;							// Latitude limits
+const i32 max_lat_coord  = 180;								
+const i32 min_long_coord = -90;								// Longitude limits
+const i32 max_long_coord = 90;
 u32 clear_count;											// How many times the buffer has been cleared
 b32 isLast;													// If it is the last set of pairs in the loop
 
@@ -39,11 +39,11 @@ f32 random_coord(b32 isLong);
 void write_file(struct text_buffer* buffer, struct pairs* haversine_pairs, FILE* file1);
 
 
-s32 main(int argc, char** argv)
+i32 main(int argc, char** argv)
 {
 	u64 startTicks, endTicks;								// Store the start and end sticks
 	u32 bytes;												// Number of bytes written to file
-	const u32 point_count = 1000000;						// Number of points to generate
+	const u32 point_count = 10000000;						// Number of points to generate
 	struct text_buffer buffer;
 	struct pairs haversine_pairs;
 	buffer.chars_in_buffer = 0;
