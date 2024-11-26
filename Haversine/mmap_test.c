@@ -14,7 +14,7 @@ typedef uint64_t u64;
 typedef int32_t  i32;
 typedef bool     b32;
 
-#define FILE_SIZE 1024000000
+#define FILE_SIZE 1024000000		// Approx. 1GB
 
 i32 main(int argc, char* argv[])
 {
@@ -37,7 +37,8 @@ i32 main(int argc, char* argv[])
 	u64 endTruncTicks = __builtin_ia32_rdtsc();
 
 	u64 startMmapTicks = __builtin_ia32_rdtsc();
-	// map the initial size of the file
+
+	// map the initial size of the file. PS: This is only for windows, for Linux, use mmap.
 	HANDLE hFile = (HANDLE)_get_osfhandle(fildes);
 	if (hFile == INVALID_HANDLE_VALUE)
 	{
@@ -84,7 +85,7 @@ i32 main(int argc, char* argv[])
 	u64 startWrite = __builtin_ia32_rdtsc();
 	for (u32 i=0; i<FILE_SIZE; i++)
 	{
-		pMapView[i] = 70;
+		pMapView[i] = 70;				// ASCII char 'F'
 	}
 	u64 endWrite = __builtin_ia32_rdtsc();
 
