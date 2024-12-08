@@ -9,7 +9,7 @@ typedef float    f32;
 typedef double   f64;
 typedef uint32_t u32;
 typedef uint64_t u64;
-typedef int32_t  i32;
+typedef int32_t  s32;
 typedef bool     b32;
 
 #define BUFF_LEN 100000										// Length of buffer (Fits L1 cache)
@@ -43,7 +43,7 @@ i32 main(int argc, char** argv)
 {
 	u64 startTicks, endTicks;								// Store the start and end sticks
 	u32 bytes;												// Number of bytes written to file
-	const u32 point_count = 10000000;						// Number of points to generate
+	const u32 point_count = 10;						// Number of points to generate
 	struct text_buffer buffer;
 	struct pairs haversine_pairs;
 	buffer.chars_in_buffer = 0;
