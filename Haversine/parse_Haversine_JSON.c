@@ -14,6 +14,42 @@ typedef uint64_t u64;
 typedef int32_t  s32;
 typedef bool     b32;
 
+
+void getValues(u32 count, f32* array, char* pMapView, u32* colonLoc, u32* commaLoc)
+{
+	u32 l=0;
+	u32 arrLoc   = 0;
+	for (u32 k=0; k<count; k++)
+	{
+		
+		char x0[13];
+		u32 charLoc  = 0;
+		u32 startLoc = colonLoc[l] + 1;
+		u32 endLoc   = commaLoc[l];
+		l+=4;
+
+		for(u32 l=startLoc; l<endLoc; l++)
+		{
+			x0[charLoc] = pMapView[l];
+			charLoc++;
+		}
+
+		// Null-terminate the string
+    	x0[charLoc] = '\0';
+		array[arrLoc] = atof(x0);
+		arrLoc++;
+	}
+}
+
+void printArray(f32* array, u32 length)
+{
+	for(u32 i=0; i<length; i++)
+	{
+		printf_s("%f\n", array[i]);
+	}
+}
+
+
 int main()
 {
 
@@ -86,6 +122,9 @@ int main()
 	char colon[1] = ":" ;
 	char tokenEnd[1] = ",";
 	u32 tokenCount_x0 = 0;
+	u32 tokenCount_x1 = 0;
+	u32 tokenCount_y0 = 0;
+	u32 tokenCount_y1 = 0;
 	u32 colonCount = 0;
 	u32 commaCount = 0;
 	u32 colonLoc[UINT16_MAX];
@@ -97,6 +136,12 @@ int main()
 
 		if(pMapView[i] == token_x0[0] && pMapView[i+1] == token_x0[1])
 			tokenCount_x0++;
+		if(pMapView[i] == token_x1[0] && pMapView[i+1] == token_x1[1])
+			tokenCount_x1++;
+		if(pMapView[i] == token_y0[0] && pMapView[i+1] == token_y0[1])
+			tokenCount_y0++;
+		if(pMapView[i] == token_y1[0] && pMapView[i+1] == token_y1[1])
+			tokenCount_y1++;
 
 		if(pMapView[i] == colon[0])
 		{
@@ -119,9 +164,14 @@ int main()
 			}
 			commaCount++;
 		}
+		
+
 	}
 
 	printf_s("\nNumber of x0 points: %d\n", tokenCount_x0);
+	printf_s("\nNumber of x1 points: %d\n", tokenCount_x1);
+	printf_s("\nNumber of y0 points: %d\n", tokenCount_y0);
+	printf_s("\nNumber of y1 points: %d\n", tokenCount_y1);
 	printf_s("Number of colons: %d\n", colonCount);
 	printf_s("Number of commas: %d\n", commaCount);
 	
@@ -130,39 +180,38 @@ int main()
 	
 	if(array_x0 == NULL)
 	{
-		printf_s("Failed to allocate array memory");
+		printf_s("Failed to allocate array memory for x0");
 		return 1;
 	}
 
-	u32 l=0;
-	u32 arrLoc   = 0;
-	for (u32 k=0; k<tokenCount_x0; k++)
-	{
-		
-		char x0[13];
-		u32 charLoc  = 0;
-		u32 startLoc = colonLoc[l] + 1;
-		u32 endLoc   = commaLoc[l];
-		l+=4;
-
-		for(u32 l=startLoc; l<endLoc; l++)
-		{
-			x0[charLoc] = pMapView[l];
-			charLoc++;
-		}
-
-		// Null-terminate the string
-    	x0[charLoc] = '\0';
-		array_x0[arrLoc] = atof(x0);
-		arrLoc++;
-	}
+	f32* array_x1 = (f32*)malloc(tokenCount_x1 * sizeof(f32));
 	
-
-	
-	for(u32 i=0; i<tokenCount_x0; i++)
+	if(array_x1 == NULL)
 	{
-		printf_s("%f\n", array_x0[i]);
+		printf_s("Failed to allocate array memory for x1");
+		return 1;
 	}
+	f32* array_y0 = (f32*)malloc(tokenCount_y0 * sizeof(f32));
+	
+	if(array_y0 == NULL)
+	{
+		printf_s("Failed to allocate array memory for y0");
+		return 1;
+	}
+	f32* array_y1 = (f32*)malloc(tokenCount_y1 * sizeof(f32));
+	
+	if(array_y1 == NULL)
+	{
+		printf_s("Failed to allocate array memory for y1");
+		return 1;
+	}
+
+	getValues(tokenCount_x0, array_x0, pMapView,colonLoc, commaLoc);
+	printArray(array_x0, tokenCount_x0);
+	
+	getValues(tokenCount_x1, array_x1, pMapView,colonLoc, commaLoc);
+	printArray(array_x1, tokenCount_x1);
+	
 
 	// Unmap the view and close Handles
 	free(array_x0);
@@ -171,3 +220,4 @@ int main()
 	close(file_Desc);
 	return 0;
 }
+
