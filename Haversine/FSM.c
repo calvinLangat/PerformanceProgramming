@@ -49,9 +49,9 @@ enum ParseResult getElement(char* json_file, u32 file_len, enum EntityType type,
 	bool encountered_sq_brackets = false;
 	bool inArray = false;
 
-	char name[256];
-	char value[256];
-	char suffix[1];
+	char name[256] = {0};
+	char value[256] = {0};
+	char suffix[1] = {0};
 
 	if (type == ARRAY)
 	{
@@ -250,6 +250,7 @@ bool createMemoryMap(const s32* file_descriptor, char** mapview, HANDLE* hMapFil
 	return true;
 }
 
+
 int main(int argc, char* argv[])
 {
 
@@ -297,52 +298,47 @@ int main(int argc, char* argv[])
 	f32* array_y1 = (f32*)malloc(array_size * sizeof(f32));
 	u32 elementCount_y1 = 0;
 
+	if (array_x0 == NULL || array_x1 == NULL || array_y0 == NULL || array_x1 == NULL)
+	{
+		printf_s("Failue to allocate memory\n");
+		return -1;
+	}
+
 	enum ParseResult result;
 	result = getElement(pMapView, fileSize, ARRAY, "pairs", "x0", array_x0, array_size, &elementCount_x0);
 
-	//if (result == SUCCESS)
-	//{
-	//	printf_s("X0:\n");
-	//	for (u32 i = 0; i < elementCount_x0; i++)
-	//	{
-	//		printf_s("%f\n", array_x0[i]);
-	//	}
-	//}
+	if (result != SUCCESS)
+	{
+		printf_s("Error\n");
+	}
 
 	result = getElement(pMapView, fileSize, ARRAY, "pairs", "x1", array_x1, array_size, &elementCount_x1);
 
-	//if (result == SUCCESS)
-	//{
-	//	printf_s("X1:\n");
-	//	for (u32 i = 0; i < elementCount_x1; i++)
-	//	{
-	//		printf_s("%f\n", array_x1[i]);
-	//	}
-	//}
+	if (result != SUCCESS)
+	{
+		printf_s("Error\n");
+	}
 
 	result = getElement(pMapView, fileSize, ARRAY, "pairs", "y0", array_y0, array_size, &elementCount_y0);
 
-	//if (result == SUCCESS)
-	//{
-	//	printf_s("Y0:\n");
-	//	for (u32 i = 0; i < elementCount_y0; i++)
-	//	{
-	//		printf_s("%f\n", array_y0[i]);
-	//	}
-	//}
+	if (result != SUCCESS)
+	{
+		printf_s("Error\n");
+	}
 
 	result = getElement(pMapView, fileSize, ARRAY, "pairs", "y1", array_y1, array_size, &elementCount_y1);
 
-	//if (result == SUCCESS)
-	//{
-	//	printf_s("Y1:\n");
-	//	for (u32 i = 0; i < elementCount_y1; i++)
-	//	{
-	//		printf_s("%f\n", array_y1[i]);
-	//	}
-	//}
+	if (result != SUCCESS)
+	{
+		printf_s("Error\n");
+	}
 
 	u64 stop_tick = __rdtsc();
+
+	printf_s("%f\n", array_x0[99]);
+	printf_s("%f\n", array_x1[99]);
+	printf_s("%f\n", array_y0[99]);
+	printf_s("%f\n", array_y1[99]);
 
 	printf_s("Parse took: %llu ticks\n", stop_tick - start_tick);
 	printf_s("Parse took: %f ms\n", (stop_tick - start_tick) / (double)2300000);
