@@ -69,7 +69,6 @@ unsigned __stdcall getElement_MT(void* par)
 	enum ParseState state = params->state;
 
 	state = SEARCHING_FOR_ENTITY;
-	bool encountered_starting_brace = false;
 	bool encountered_quotes = false;
 	bool encountered_braces = false;
 	bool encountered_sq_brackets = false;
@@ -328,6 +327,11 @@ int main(int argc, char* argv[])
 	f32* array_y1 = (f32*)malloc(array_size * sizeof(f32));
 	u32 elementCount_y1 = 0;
 
+	if (array_x0 == NULL || array_x1 == NULL || array_y0 == NULL || array_y1 == NULL)
+	{
+		printf_s("Failure to allocate memory\n");
+		return -1;
+	}
 	enum ParseResult result;
 
 	// Trying multithreading
@@ -386,7 +390,7 @@ int main(int argc, char* argv[])
 	
 	
 	// If no issue when creating threads, wait for them and get exit codes
-	if (threadHandle_x0 != NULL && threadHandle_x1 != NULL & threadHandle_y0 != NULL && threadHandle_y1 != NULL){
+	if (threadHandle_x0 != NULL && threadHandle_x1 != NULL && threadHandle_y0 != NULL && threadHandle_y1 != NULL){
 		HANDLE threadHandles[4] = { threadHandle_x0, threadHandle_x1, threadHandle_y0, threadHandle_y1};
 		
 		// Wait for all threads to complete
@@ -425,7 +429,7 @@ int main(int argc, char* argv[])
 
 	        // Return value is invalid.
 	        default: 
-	            printf("Wait error: %d\n", GetLastError()); 
+	            printf("Wait error: %ld\n", GetLastError()); 
 	            ExitProcess(0); 
 	    }
 		

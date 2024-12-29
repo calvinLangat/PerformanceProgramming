@@ -308,7 +308,7 @@ int main(int argc, char* argv[])
 
 	if (array_x0 == NULL || array_x1 == NULL || array_y0 == NULL || array_y1 == NULL)
 	{
-		printf_s("Failue to allocate memory\n");
+		printf_s("Failure to allocate memory\n");
 		return -1;
 	}
 
