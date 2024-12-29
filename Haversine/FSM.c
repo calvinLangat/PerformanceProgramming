@@ -40,7 +40,15 @@ u32 elements_found_count = 0;
 u32 read_values_count = 0;
 enum ParseState state;
 
-enum ParseResult getElement(char* json_file, u32 file_len, enum EntityType type, const char* entity_name, const char* element_name, f32* out_element_array, u32 array_size, u32* out_elementCount)
+enum ParseResult getElement(
+	char* json_file,
+	u32 file_len,
+	enum EntityType type,
+	const char* entity_name,
+	const char* element_name,
+	f32* out_element_array,
+	u32 array_size,
+	u32* out_elementCount)
 {
 	state = SEARCHING_FOR_ENTITY;
 	bool encountered_starting_brace = false;
@@ -298,7 +306,7 @@ int main(int argc, char* argv[])
 	f32* array_y1 = (f32*)malloc(array_size * sizeof(f32));
 	u32 elementCount_y1 = 0;
 
-	if (array_x0 == NULL || array_x1 == NULL || array_y0 == NULL || array_x1 == NULL)
+	if (array_x0 == NULL || array_x1 == NULL || array_y0 == NULL || array_y1 == NULL)
 	{
 		printf_s("Failue to allocate memory\n");
 		return -1;
